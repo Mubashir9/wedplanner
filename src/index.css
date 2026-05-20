@@ -7,3 +7,17 @@
     @apply bg-slate-50 text-slate-800 font-sans antialiased;
   }
 }
+
+/* Fix for invisible date pickers: stretch the trigger icon to cover the entire input */
+input[type="date"].date-picker-trigger::-webkit-calendar-picker-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: auto;
+  height: auto;
+  color: transparent;
+  background: transparent;
+  cursor: pointer;
+}

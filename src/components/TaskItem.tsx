@@ -1,6 +1,6 @@
 import type { Task } from '../types';
 import { useStore } from '../store/useStore';
-import { Check } from 'lucide-react';
+import { Check, Calendar, X } from 'lucide-react';
 import { differenceInDays, parseISO } from 'date-fns';
 
 interface TaskItemProps {
@@ -48,17 +48,32 @@ export function TaskItem({ phaseId, task }: TaskItemProps) {
       </div>
 
       <div className="flex-shrink-0">
-        <div className="flex items-center">
-          <input 
-            type="date"
-            value={task.dueDate || ''}
-            onChange={(e) => updateTaskDate(phaseId, task.id, e.target.value)}
-            className={`px-2 py-1.5 rounded-lg text-xs font-medium border outline-none transition-colors ${
+        <div className="flex items-center gap-2">
+          <div className="relative overflow-hidden group">
+            <input 
+              type="date"
+              value={task.dueDate || ''}
+              onChange={(e) => updateTaskDate(phaseId, task.id, e.target.value)}
+              className={`date-picker-trigger opacity-0 absolute inset-0 w-full h-full cursor-pointer z-10 ${task.completed && 'pointer-events-none'}`}
+            />
+            <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
               task.dueDate 
-                ? task.completed ? 'bg-slate-100 border-slate-200 text-slate-500' : 'bg-white border-slate-200 text-slate-700 hover:border-blue-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500'
-                : 'bg-slate-50 border-dashed border-slate-300 text-slate-400 hover:border-blue-300 focus:border-solid focus:border-blue-500 focus:ring-1 focus:ring-blue-500'
-            } ${task.completed && 'pointer-events-none'}`}
-          />
+                ? task.completed ? 'bg-slate-100 border-slate-200 text-slate-500' : 'bg-white border-slate-200 text-slate-700 group-hover:border-blue-300'
+                : 'bg-slate-50 border-dashed border-slate-300 text-slate-400 group-hover:border-blue-300'
+            }`}>
+              <Calendar className="w-3.5 h-3.5" />
+              {task.dueDate ? task.dueDate : 'Set Date'}
+            </div>
+          </div>
+          {task.dueDate && !task.completed && (
+            <button 
+              onClick={() => updateTaskDate(phaseId, task.id, '')}
+              className="p-1 text-slate-400 hover:text-red-500 transition-colors rounded-full hover:bg-red-50"
+              title="Clear date"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          )}
         </div>
       </div>
     </div>
