@@ -1,6 +1,6 @@
 import type { Task } from '../types';
 import { useStore } from '../store/useStore';
-import { Check, Calendar } from 'lucide-react';
+import { Check } from 'lucide-react';
 import { differenceInDays, parseISO } from 'date-fns';
 
 interface TaskItemProps {
