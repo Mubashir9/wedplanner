@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WedPlanner - Timeline Dashboard</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Playfair Display & Inter -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Playfair+Display:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-fixed-dim": "#e8c08d",
+                      "primary-fixed": "#dae2ff",
+                      "surface-bright": "#fbf9f4",
+                      "background": "#fbf9f4",
+                      "surface-container-highest": "#e4e2dd",
+                      "surface-container-high": "#eae8e3",
+                      "on-surface": "#1b1c19",
+                      "secondary": "#77592f",
+                      "inverse-surface": "#30312e",
+                      "tertiary-container": "#361b1c",
+                      "on-secondary-fixed-variant": "#5d421a",
+                      "on-secondary": "#ffffff",
+                      "outline-variant": "#c6c6cd",
+                      "inverse-primary": "#bec6e3",
+                      "tertiary": "#1c0607",
+                      "primary-container": "#1a2238",
+                      "on-error": "#ffffff",
+                      "primary": "#040c21",
+                      "on-background": "#1b1c19",
+                      "on-error-container": "#93000a",
+                      "on-primary": "#ffffff",
+                      "on-tertiary-fixed": "#2d1415",
+                      "on-primary-fixed-variant": "#3e465e",
+                      "error": "#ba1a1a",
+                      "on-primary-fixed": "#131b30",
+                      "on-primary-container": "#8189a4",
+                      "surface-variant": "#e4e2dd",
+                      "on-tertiary": "#ffffff",
+                      "tertiary-fixed": "#ffdad9",
+                      "on-secondary-container": "#785a30",
+                      "secondary-fixed": "#ffddb4",
+                      "surface-tint": "#565e77",
+                      "inverse-on-surface": "#f2f1ec",
+                      "on-secondary-fixed": "#291800",
+                      "on-tertiary-fixed-variant": "#5e3e3f",
+                      "secondary-container": "#fcd39f",
+                      "surface-container-low": "#f5f3ee",
+                      "tertiary-fixed-dim": "#e9bcbb",
+                      "on-surface-variant": "#45464d",
+                      "outline": "#76777e",
+                      "surface-dim": "#dbdad5",
+                      "surface": "#fbf9f4",
+                      "surface-container": "#f0eee9",
+                      "on-tertiary-container": "#a88080",
+                      "primary-fixed-dim": "#bec6e3",
+                      "error-container": "#ffdad6",
+                      "surface-container-lowest": "#ffffff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "container-padding": "40px",
+                      "unit": "8px",
+                      "sidebar-width": "280px",
+                      "gutter": "24px",
+                      "stack-sm": "12px",
+                      "stack-md": "24px",
+                      "stack-lg": "48px"
+              },
+              "fontFamily": {
+                      "body-md": ["Inter"],
+                      "headline-lg": ["Playfair Display"],
+                      "headline-md": ["Playfair Display"],
+                      "display-lg": ["Playfair Display"],
+                      "nav-link": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "headline-lg-mobile": ["Playfair Display"],
+                      "label-caps": ["Inter"]
+              },
+              "fontSize": {
+                      "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                      "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                      "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "nav-link": ["15px", {"lineHeight": "1.5", "fontWeight": "500"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "headline-lg-mobile": ["28px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                      "label-caps": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+            transition: all 0.3s ease;
+        }
+        
+        .active-icon .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            color: #ffddb4 !important; /* accent_gold/secondary-fixed */
+        }
+
+        .paper-shadow {
+            box-shadow: 0px 4px 20px rgba(26, 34, 56, 0.05);
+        }
+
+        .custom-checkbox {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 1.5px solid #c6c6cd;
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .custom-checkbox:checked {
+            background-color: #77592f;
+            border-color: #77592f;
+        }
+
+        .custom-checkbox:checked::after {
+            content: '';
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -55%) rotate(45deg);
+            width: 5px;
+            height: 10px;
+            border-bottom: 2px solid white;
+            border-right: 2px solid white;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .scale-up:hover {
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden">
+<!-- Sidebar Shell -->
+<aside class="fixed left-0 top-0 h-full w-[280px] bg-primary-container border-r border-outline-variant/10 shadow-2xl flex flex-col justify-between py-8 z-50">
+<div>
+<!-- Brand Logo -->
+<div class="px-8 mb-12 flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary-fixed text-[32px]">favorite</span>
+<div>
+<h1 class="text-on-primary font-headline-md text-headline-md font-bold tracking-tight">WedPlanner</h1>
+<p class="text-on-primary-container text-[11px] uppercase tracking-widest font-label-caps opacity-60">Digital Concierge</p>
+</div>
+</div>
+<!-- Navigation Links -->
+<nav class="flex flex-col gap-1">
+<a class="text-on-primary-container/70 flex items-center gap-4 px-8 py-4 hover:bg-on-primary-fixed-variant/10 hover:text-secondary-fixed transition-colors duration-300" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-nav-link text-nav-link">Overview</span>
+</a>
+<!-- Active Tab: Timeline -->
+<a class="text-secondary-fixed font-bold flex items-center gap-4 px-8 py-4 bg-on-primary-fixed-variant/20 border-l-4 border-secondary-fixed transition-all duration-300 active-icon" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-nav-link text-nav-link">Timeline</span>
+</a>
+<a class="text-on-primary-container/70 flex items-center gap-4 px-8 py-4 hover:bg-on-primary-fixed-variant/10 hover:text-secondary-fixed transition-colors duration-300" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-nav-link text-nav-link">Documents</span>
+</a>
+<a class="text-on-primary-container/70 flex items-center gap-4 px-8 py-4 hover:bg-on-primary-fixed-variant/10 hover:text-secondary-fixed transition-colors duration-300" href="#">
+<span class="material-symbols-outlined">flag</span>
+<span class="font-nav-link text-nav-link">Milestones</span>
+</a>
+<a class="text-on-primary-container/70 flex items-center gap-4 px-8 py-4 hover:bg-on-primary-fixed-variant/10 hover:text-secondary-fixed transition-colors duration-300" href="#">
+<span class="material-symbols-outlined">flight_takeoff</span>
+<span class="font-nav-link text-nav-link">Migration</span>
+</a>
+</nav>
+</div>
+<!-- Sidebar Footer -->
+<div class="px-4">
+<div class="flex flex-col gap-1 mb-8">
+<a class="text-on-primary-container/70 flex items-center gap-4 px-4 py-3 hover:bg-on-primary-fixed-variant/10 hover:text-secondary-fixed transition-colors duration-300 rounded-lg" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-nav-link text-nav-link">Settings</span>
+</a>
+<a class="text-on-primary-container/70 flex items-center gap-4 px-4 py-3 hover:bg-on-primary-fixed-variant/10 hover:text-secondary-fixed transition-colors duration-300 rounded-lg" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-nav-link text-nav-link">Sign Out</span>
+</a>
+</div>
+<div class="bg-on-primary-fixed-variant/10 rounded-xl p-4 flex items-center gap-3">
+<img alt="User Profile" class="w-10 h-10 rounded-full border border-on-primary-container/20" data-alt="A close-up high-quality portrait of a sophisticated woman with a friendly expression. The lighting is soft and warm, suggesting a high-end luxury lifestyle. The background is a blurred, elegant interior with a palette of soft creams and warm woods, matching a premium light-mode digital concierge aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrb6AaBaC-wj1GaqZL4gpTRekXdCFgZE6m2hDIX0Hb3_6hc_V5Zz-0hsoF3S0zkeSgsk6_lkF5IIV62nQ-8lJuMUMbQ09u3QHY5GiKgrkevR0-pHByzdEdJIycA8X-IVwy83nBqw4pCCjnpB9U-JEdhV6WnoxuFxDrkn53TKMV_pmAbmY5nJV5VkG1ODCYyjCqpi2fTt5wrQWaAVTu28sJJT8jNlrKgV3kGcwQn9mMF1101rX8kfGOcROn7IuosYCURb7pdkqwbnY"/>
+<div>
+<p class="text-on-primary font-bold text-[14px]">Elena Rossi</p>
+<p class="text-on-primary-container/60 text-[11px]">Premium Member</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-[280px] min-h-screen">
+<!-- Top App Bar -->
+<header class="sticky top-0 z-40 bg-background/80 backdrop-blur-md px-10 h-20 flex justify-between items-center">
+<h2 class="text-primary font-headline-lg text-headline-lg">Your Timeline</h2>
+<div class="flex items-center gap-6">
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="bg-surface-container-low border-none rounded-full pl-10 pr-4 py-2 text-sm w-64 focus:ring-1 focus:ring-secondary-fixed-dim transition-all" placeholder="Search tasks..." type="text"/>
+</div>
+<button class="material-symbols-outlined text-primary hover:text-secondary transition-colors p-2 rounded-full hover:bg-surface-container">notifications</button>
+<button class="material-symbols-outlined text-primary hover:text-secondary transition-colors p-2 rounded-full hover:bg-surface-container">account_circle</button>
+</div>
+</header>
+<!-- Content Body -->
+<div class="px-10 py-8 max-w-[1100px] mx-auto">
+<!-- Current Phase Section -->
+<section class="mb-stack-lg fade-in" style="animation-delay: 0.1s;">
+<p class="font-label-caps text-label-caps text-secondary mb-4 uppercase tracking-widest">Current Phase</p>
+<div class="paper-shadow bg-surface-container-lowest rounded-2xl p-8 border border-outline-variant/30 relative overflow-hidden group hover:translate-y-[-2px] transition-transform duration-300">
+<div class="flex justify-between items-end mb-6">
+<div>
+<h3 class="font-headline-md text-headline-md text-primary-container mb-1">Preparation Phase</h3>
+<p class="text-on-surface-variant text-sm italic">Laying the foundation for your journey together.</p>
+</div>
+<div class="text-right">
+<span class="text-primary-container font-headline-md font-bold">0%</span>
+<span class="text-on-surface-variant text-sm block">(0/17 tasks)</span>
+</div>
+</div>
+<!-- Champagne Progress Bar -->
+<div class="w-full h-3 bg-secondary-container/30 rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-0 group-hover:w-[5%] transition-all duration-1000 ease-out" style="box-shadow: 0 0 10px rgba(119, 89, 47, 0.3);"></div>
+</div>
+</div>
+</section>
+<!-- Detailed Checklist Section -->
+<section class="fade-in" style="animation-delay: 0.3s;">
+<div class="flex justify-between items-baseline mb-6">
+<h2 class="font-headline-lg text-headline-lg text-primary">Preparation Phase</h2>
+<span class="font-headline-md text-headline-md text-on-surface-variant/40">0/3</span>
+</div>
+<div class="h-[2px] w-full bg-primary-container/10 mb-8">
+<div class="h-full bg-primary-container w-24"></div>
+</div>
+<!-- Checklist -->
+<div class="flex flex-col gap-4">
+<!-- Task Item 1 -->
+<div class="flex items-center justify-between p-6 bg-surface-container-lowest rounded-xl border border-transparent hover:border-outline-variant/30 hover:bg-white transition-all duration-300 group">
+<div class="flex items-center gap-6">
+<input class="custom-checkbox" type="checkbox"/>
+<span class="font-body-lg text-body-lg text-on-surface group-hover:text-primary transition-colors">Confirm visa eligibility</span>
+</div>
+<div class="flex items-center gap-8">
+<button class="text-on-surface-variant/60 hover:text-secondary flex items-center gap-2 text-sm transition-colors">
+<span class="font-label-caps uppercase tracking-tighter">Set Date</span>
+<span class="material-symbols-outlined text-[20px]">calendar_today</span>
+</button>
+<span class="material-symbols-outlined text-outline-variant opacity-0 group-hover:opacity-100 cursor-grab">drag_indicator</span>
+</div>
+</div>
+<!-- Task Item 2 -->
+<div class="flex items-center justify-between p-6 bg-surface-container-lowest rounded-xl border border-transparent hover:border-outline-variant/30 hover:bg-white transition-all duration-300 group">
+<div class="flex items-center gap-6">
+<input class="custom-checkbox" type="checkbox"/>
+<span class="font-body-lg text-body-lg text-on-surface group-hover:text-primary transition-colors">Gather documents</span>
+</div>
+<div class="flex items-center gap-8">
+<button class="text-on-surface-variant/60 hover:text-secondary flex items-center gap-2 text-sm transition-colors">
+<span class="font-label-caps uppercase tracking-tighter">Set Date</span>
+<span class="material-symbols-outlined text-[20px]">calendar_today</span>
+</button>
+<span class="material-symbols-outlined text-outline-variant opacity-0 group-hover:opacity-100 cursor-grab">drag_indicator</span>
+</div>
+</div>
+<!-- Task Item 3 -->
+<div class="flex items-center justify-between p-6 bg-surface-container-lowest rounded-xl border border-transparent hover:border-outline-variant/30 hover:bg-white transition-all duration-300 group">
+<div class="flex items-center gap-6">
+<input class="custom-checkbox" type="checkbox"/>
+<span class="font-body-lg text-body-lg text-on-surface group-hover:text-primary transition-colors">Build relationship evidence</span>
+</div>
+<div class="flex items-center gap-8">
+<button class="text-on-surface-variant/60 hover:text-secondary flex items-center gap-2 text-sm transition-colors">
+<span class="font-label-caps uppercase tracking-tighter">Set Date</span>
+<span class="material-symbols-outlined text-[20px]">calendar_today</span>
+</button>
+<span class="material-symbols-outlined text-outline-variant opacity-0 group-hover:opacity-100 cursor-grab">drag_indicator</span>
+</div>
+</div>
+</div>
+<!-- Empty State/Add Button -->
+<button class="mt-8 w-full py-6 border-2 border-dashed border-outline-variant/40 rounded-2xl flex items-center justify-center gap-3 text-on-surface-variant hover:border-secondary hover:text-secondary transition-all group">
+<span class="material-symbols-outlined transition-transform group-hover:rotate-90">add</span>
+<span class="font-nav-link text-nav-link">Add a custom milestone</span>
+</button>
+</section>
+<!-- Decorative Visual (Bento-style detail) -->
+<section class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 fade-in" style="animation-delay: 0.5s;">
+<div class="paper-shadow bg-primary-container rounded-2xl p-8 text-on-primary flex flex-col justify-between h-64 relative overflow-hidden">
+<div class="z-10">
+<h4 class="font-headline-md text-headline-md mb-2">Concierge Tip</h4>
+<p class="text-on-primary-container text-sm leading-relaxed max-w-[80%]">Ensure all translations are NAATI certified to avoid delays in your visa application process.</p>
+</div>
+<button class="z-10 w-fit px-6 py-2 bg-secondary-fixed text-primary-container rounded-full text-xs font-bold uppercase tracking-wider hover:bg-secondary-fixed-dim transition-colors">Read More</button>
+<!-- Abstract Background Pattern -->
+<div class="absolute -bottom-10 -right-10 w-48 h-48 bg-on-primary-fixed-variant/10 rounded-full blur-3xl"></div>
+</div>
+<div class="paper-shadow rounded-2xl overflow-hidden relative h-64 group cursor-pointer">
+<img alt="Wedding Inspiration" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A luxurious wedding setup at sunset with warm, golden hour lighting. The scene features elegant table settings, delicate floral arrangements in blush and cream, and soft flickering candles. The mood is romantic, serene, and sophisticated, reflecting a high-end luxury wedding aesthetic. The overall color palette consists of soft golds, champagne, and ivory white." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0wEjPENrocZ_3XVUKP4N1loGkX5vbMkJT-7hU376qSZzuPqwrmX6AHIQcCphNofJ2zmoxp9EqDL9GBt5kwJ4ShDPscxna-WVOGygP6n81iKspxJT9mChZbz77DOZSPhlVnFvYz6k6kiOe6S-mHdgiqoKWrQZYrFiQnr2LVUw-0GDnAnGJqIOmOA77bzfqeZxOrrs9gvh6oxGssvdv5t-IIl0jLK7u3lB5rT2wDgxdietZs_RiqQuUajYcKcM9dXSjGGDuG-Z7y8U"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex flex-col justify-end p-8">
+<p class="text-on-primary font-headline-md text-headline-md">Inspiration Gallery</p>
+<p class="text-on-primary-container/80 text-sm">Curated aesthetics for your big day</p>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Contextual FAB -->
+<button class="fixed bottom-10 right-10 w-16 h-16 bg-primary-container text-secondary-fixed rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50 group">
+<span class="material-symbols-outlined text-[32px]">event_note</span>
+<span class="absolute right-20 bg-white px-4 py-2 rounded-lg text-primary shadow-lg text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Schedule Consultation</span>
+</button>
+<script>
+        // Simple Micro-interaction for checkboxes
+        const checkboxes = document.querySelectorAll('.custom-checkbox');
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', (e) => {
+                const parent = e.target.closest('.group');
+                const label = parent.querySelector('.text-body-lg');
+                if (e.target.checked) {
+                    label.style.textDecoration = 'line-through';
+                    label.style.opacity = '0.5';
+                    // Sparkle effect or logic here
+                } else {
+                    label.style.textDecoration = 'none';
+                    label.style.opacity = '1';
+                }
+            });
+        });
+
+        // Dynamic Header Scroll Effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 20) {
+                header.classList.add('shadow-sm');
+            } else {
+                header.classList.remove('shadow-sm');
+            }
+        });
+    </script>
+</body></html>

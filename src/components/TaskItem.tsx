@@ -1,7 +1,5 @@
 import type { Task } from '../types';
 import { useStore } from '../store/useStore';
-import { Check, Calendar, X } from 'lucide-react';
-import { differenceInDays, parseISO } from 'date-fns';
 
 interface TaskItemProps {
   phaseId: string;
@@ -11,70 +9,34 @@ interface TaskItemProps {
 export function TaskItem({ phaseId, task }: TaskItemProps) {
   const { toggleTask, updateTaskDate } = useStore();
 
-  let warningClass = "";
-  if (!task.completed && task.dueDate) {
-    const days = differenceInDays(parseISO(task.dueDate), new Date());
-    if (days < 0) {
-      warningClass = "bg-red-50 border-red-200 text-red-800";
-    } else if (days <= 7) {
-      warningClass = "bg-yellow-50 border-yellow-200 text-yellow-800";
-    }
-  }
-
   return (
-    <div className={`flex items-start gap-4 p-4 rounded-xl border transition-all ${
-      task.completed 
-        ? 'bg-slate-50 border-slate-200 opacity-60' 
-        : warningClass || 'bg-white border-slate-200 hover:border-blue-300 hover:shadow-sm'
-    }`}>
-      <button 
-        onClick={() => toggleTask(phaseId, task.id)}
-        className={`mt-1 flex-shrink-0 w-6 h-6 rounded-md border-2 flex items-center justify-center transition-colors ${
-          task.completed 
-            ? 'bg-blue-500 border-blue-500 text-white' 
-            : 'border-slate-300 hover:border-blue-400 bg-white text-transparent'
-        }`}
-      >
-        <Check className="w-4 h-4" />
-      </button>
-
-      <div className="flex-1 min-w-0">
-        <p className={`font-medium ${task.completed ? 'text-slate-500 line-through' : 'text-slate-800'}`}>
-          {task.title}
-        </p>
-        {task.description && (
-          <p className="text-sm text-slate-500 mt-1">{task.description}</p>
-        )}
-      </div>
-
-      <div className="flex-shrink-0">
-        <div className="flex items-center gap-2">
-          <div className="relative overflow-hidden group">
-            <input 
-              type="date"
-              value={task.dueDate || ''}
-              onChange={(e) => updateTaskDate(phaseId, task.id, e.target.value)}
-              className={`date-picker-trigger opacity-0 absolute inset-0 w-full h-full cursor-pointer z-10 ${task.completed && 'pointer-events-none'}`}
-            />
-            <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
-              task.dueDate 
-                ? task.completed ? 'bg-slate-100 border-slate-200 text-slate-500' : 'bg-white border-slate-200 text-slate-700 group-hover:border-blue-300'
-                : 'bg-slate-50 border-dashed border-slate-300 text-slate-400 group-hover:border-blue-300'
-            }`}>
-              <Calendar className="w-3.5 h-3.5" />
-              {task.dueDate ? task.dueDate : 'Set Date'}
-            </div>
-          </div>
-          {task.dueDate && !task.completed && (
-            <button 
-              onClick={() => updateTaskDate(phaseId, task.id, '')}
-              className="p-1 text-slate-400 hover:text-red-500 transition-colors rounded-full hover:bg-red-50"
-              title="Clear date"
-            >
-              <X className="w-4 h-4" />
-            </button>
+    <div className="flex items-center justify-between p-4 md:p-6 bg-surface-container-lowest rounded-xl border border-transparent hover:border-outline-variant/30 hover:bg-white transition-all duration-300 group">
+      <div className="flex items-center gap-4 md:gap-6 min-w-0 flex-1">
+        <input 
+          type="checkbox"
+          checked={task.completed}
+          onChange={() => toggleTask(phaseId, task.id)}
+          className="custom-checkbox flex-shrink-0" 
+        />
+        <div className="flex flex-col min-w-0">
+          <span className={`font-body-lg text-body-lg text-on-surface group-hover:text-primary transition-colors truncate ${task.completed ? 'line-through opacity-50' : ''}`}>
+            {task.title}
+          </span>
+          {task.description && (
+            <span className={`text-sm text-on-surface-variant/70 truncate ${task.completed ? 'opacity-50' : ''}`}>
+              {task.description}
+            </span>
           )}
         </div>
+      </div>
+      <div className="flex items-center gap-4 md:gap-8 flex-shrink-0 pl-4">
+        <input 
+          type="date"
+          value={task.dueDate || ''}
+          onChange={(e) => updateTaskDate(phaseId, task.id, e.target.value)}
+          className="px-2 py-1.5 rounded-lg text-sm border-outline-variant/30 text-on-surface-variant/80 hover:border-secondary focus:ring-1 focus:ring-secondary/50 font-nav-link"
+        />
+        <span className="material-symbols-outlined text-outline-variant opacity-0 group-hover:opacity-100 cursor-grab hidden md:block">drag_indicator</span>
       </div>
     </div>
   );

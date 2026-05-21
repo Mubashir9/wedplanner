@@ -6,23 +6,29 @@ export function TimelineView() {
   const { timeline } = useStore();
 
   return (
-    <div className="space-y-6">
-      <ProgressOverview />
-      
-      <div className="relative">
-        {/* Vertical line connecting phases */}
-        <div className="absolute left-8 top-8 bottom-8 w-px bg-blue-100 hidden md:block z-0"></div>
+    <>
+      {/* Top App Bar */}
+      <header className="sticky top-0 z-40 bg-background/80 backdrop-blur-md px-4 md:px-10 h-20 flex justify-between items-center">
+        <h2 className="text-primary font-headline-lg text-headline-lg">Your Timeline</h2>
+        <div className="flex items-center gap-6">
+          <button className="material-symbols-outlined text-primary hover:text-secondary transition-colors p-2 rounded-full hover:bg-surface-container hidden md:block">search</button>
+          <button className="material-symbols-outlined text-primary hover:text-secondary transition-colors p-2 rounded-full hover:bg-surface-container">notifications</button>
+        </div>
+      </header>
+
+      {/* Content Body */}
+      <div className="px-4 md:px-10 py-8 max-w-[1100px] mx-auto">
+        <ProgressOverview />
         
-        <div className="space-y-6 relative z-10">
-          {timeline.map((phase, index) => (
+        <div className="mt-12">
+          {timeline.map((phase) => (
             <TimelinePhaseCard 
               key={phase.id} 
               phase={phase} 
-              defaultExpanded={index === 0 || phase.tasks.some(t => !t.completed)} 
             />
           ))}
         </div>
       </div>
-    </div>
+    </>
   );
 }

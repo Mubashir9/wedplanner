@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WedPlanner - Milestones Journey</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+    }
+    .active-nav .material-symbols-outlined {
+      font-variation-settings: 'FILL' 1, 'wght' 400;
+    }
+    .journey-line-svg {
+      filter: drop-shadow(0 4px 10px rgba(120, 90, 48, 0.1));
+    }
+    .node-pulse {
+      animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(1.05); }
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+  </style>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+                  "secondary-fixed-dim": "#e8c08d",
+                  "primary-fixed": "#dae2ff",
+                  "surface-bright": "#fbf9f4",
+                  "background": "#fbf9f4",
+                  "surface-container-highest": "#e4e2dd",
+                  "surface-container-high": "#eae8e3",
+                  "on-surface": "#1b1c19",
+                  "secondary": "#77592f",
+                  "inverse-surface": "#30312e",
+                  "tertiary-container": "#361b1c",
+                  "on-secondary-fixed-variant": "#5d421a",
+                  "on-secondary": "#ffffff",
+                  "outline-variant": "#c6c6cd",
+                  "inverse-primary": "#bec6e3",
+                  "tertiary": "#1c0607",
+                  "primary-container": "#1a2238",
+                  "on-error": "#ffffff",
+                  "primary": "#040c21",
+                  "on-background": "#1b1c19",
+                  "on-error-container": "#93000a",
+                  "on-primary": "#ffffff",
+                  "on-tertiary-fixed": "#2d1415",
+                  "on-primary-fixed-variant": "#3e465e",
+                  "error": "#ba1a1a",
+                  "on-primary-fixed": "#131b30",
+                  "on-primary-container": "#8189a4",
+                  "surface-variant": "#e4e2dd",
+                  "on-tertiary": "#ffffff",
+                  "tertiary-fixed": "#ffdad9",
+                  "on-secondary-container": "#785a30",
+                  "secondary-fixed": "#ffddb4",
+                  "surface-tint": "#565e77",
+                  "inverse-on-surface": "#f2f1ec",
+                  "on-secondary-fixed": "#291800",
+                  "on-tertiary-fixed-variant": "#5e3e3f",
+                  "secondary-container": "#fcd39f",
+                  "surface-container-low": "#f5f3ee",
+                  "tertiary-fixed-dim": "#e9bcbb",
+                  "on-surface-variant": "#45464d",
+                  "outline": "#76777e",
+                  "surface-dim": "#dbdad5",
+                  "surface": "#fbf9f4",
+                  "surface-container": "#f0eee9",
+                  "on-tertiary-container": "#a88080",
+                  "primary-fixed-dim": "#bec6e3",
+                  "error-container": "#ffdad6",
+                  "surface-container-lowest": "#ffffff"
+          },
+          "borderRadius": {
+                  "DEFAULT": "0.25rem",
+                  "lg": "0.5rem",
+                  "xl": "0.75rem",
+                  "full": "9999px"
+          },
+          "spacing": {
+                  "container-padding": "40px",
+                  "unit": "8px",
+                  "sidebar-width": "280px",
+                  "gutter": "24px",
+                  "stack-sm": "12px",
+                  "stack-md": "24px",
+                  "stack-lg": "48px"
+          },
+          "fontFamily": {
+                  "body-md": ["Inter"],
+                  "headline-lg": ["Playfair Display"],
+                  "headline-md": ["Playfair Display"],
+                  "display-lg": ["Playfair Display"],
+                  "nav-link": ["Inter"],
+                  "body-lg": ["Inter"],
+                  "headline-lg-mobile": ["Playfair Display"],
+                  "label-caps": ["Inter"]
+          },
+          "fontSize": {
+                  "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                  "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                  "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                  "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                  "nav-link": ["15px", {"lineHeight": "1.5", "fontWeight": "500"}],
+                  "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                  "headline-lg-mobile": ["28px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                  "label-caps": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "600"}]
+          }
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-background font-body-md text-on-surface overflow-hidden">
+<!-- SideNavBar Anchor -->
+<aside class="fixed left-0 top-0 h-full w-[280px] bg-primary-container flex flex-col h-full justify-between py-8 border-r border-outline-variant/10 shadow-2xl z-50">
+<div>
+<div class="px-8 mb-12 flex items-center gap-3">
+<div class="w-10 h-10 bg-secondary-fixed rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-xl">favorite</span>
+</div>
+<div>
+<h1 class="text-headline-md font-headline-md text-on-primary font-bold tracking-tight">WedPlanner</h1>
+<p class="text-xs text-on-primary-container font-nav-link uppercase tracking-widest opacity-60">Digital Concierge</p>
+</div>
+</div>
+<nav class="space-y-1">
+<a class="text-on-primary-container/70 flex items-center gap-3 px-8 py-4 hover:bg-on-primary-fixed-variant/10 hover:text-secondary-fixed transition-colors duration-300" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-nav-link text-nav-link">Overview</span>
+</a>
+<a class="text-on-primary-container/70 flex items-center gap-3 px-8 py-4 hover:bg-on-primary-fixed-variant/10 hover:text-secondary-fixed transition-colors duration-300" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-nav-link text-nav-link">Timeline</span>
+</a>
+<a class="text-on-primary-container/70 flex items-center gap-3 px-8 py-4 hover:bg-on-primary-fixed-variant/10 hover:text-secondary-fixed transition-colors duration-300" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-nav-link text-nav-link">Documents</span>
+</a>
+<!-- Active Nav Item -->
+<a class="text-secondary-fixed font-bold flex items-center gap-3 px-8 py-4 bg-on-primary-fixed-variant/20 border-l-4 border-secondary-fixed active-nav" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">flag</span>
+<span class="font-nav-link text-nav-link">Milestones</span>
+</a>
+<a class="text-on-primary-container/70 flex items-center gap-3 px-8 py-4 hover:bg-on-primary-fixed-variant/10 hover:text-secondary-fixed transition-colors duration-300" href="#">
+<span class="material-symbols-outlined">flight_takeoff</span>
+<span class="font-nav-link text-nav-link">Migration</span>
+</a>
+</nav>
+</div>
+<div class="space-y-1">
+<a class="text-on-primary-container/70 flex items-center gap-3 px-8 py-4 hover:bg-on-primary-fixed-variant/10 hover:text-secondary-fixed transition-colors duration-300" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-nav-link text-nav-link">Settings</span>
+</a>
+<a class="text-on-primary-container/70 flex items-center gap-3 px-8 py-4 hover:bg-on-primary-fixed-variant/10 hover:text-secondary-fixed transition-colors duration-300" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-nav-link text-nav-link">Sign Out</span>
+</a>
+</div>
+</aside>
+<!-- TopAppBar Anchor -->
+<header class="sticky top-0 right-0 z-40 w-[calc(100%-280px)] ml-[280px] bg-background/80 backdrop-blur-md flex justify-between items-center px-10 h-20">
+<div class="flex flex-col">
+<span class="text-label-caps font-label-caps text-on-surface-variant tracking-[0.2em] uppercase">Current Chapter</span>
+<h2 class="font-headline-md text-headline-md text-primary">Milestones Journey</h2>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative group">
+<input class="bg-surface-container-low border-none rounded-full px-6 py-2 w-64 focus:ring-1 focus:ring-secondary text-sm transition-all outline-none" placeholder="Search milestones..." type="text"/>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline text-lg">search</span>
+</div>
+<div class="flex items-center gap-4 border-l border-outline-variant/30 pl-6">
+<button class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center border border-secondary/20 overflow-hidden shadow-sm">
+<img alt="User" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzluYtE7YYoXXp9lOIkJdkYnUzHiS-5khzi1h_8Gu5UxjXEVq3Lm1VnSccUSBGUAV4_HVyd9SUbLHtlc3Wc-c-5wNUOOkCKMA2MEe8BcZk0I1HhqM8bw24VsJbXmGGGse0_bpBZL0vYwo6eJk0l-w2WkbZCh3zpTypxSn85xhl9yZJGcRD4FrJfJ8NY0UFbm3LtdDNK77UJJB61yABfQubzQi_vK8sbD2vhVM7JOU7VIVUaHJs46quHWbjzDs9umuYxK68iKuyHW4"/>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="ml-[280px] p-container-padding overflow-y-auto h-[calc(100vh-80px)] relative">
+<!-- Hero Banner with Illustration -->
+<section class="mb-stack-lg relative overflow-hidden rounded-[24px] bg-white shadow-sm border border-outline-variant/5">
+<div class="flex flex-col md:flex-row items-center justify-between px-12 py-16 relative z-10">
+<div class="max-w-xl">
+<span class="text-secondary font-label-caps text-label-caps mb-4 block uppercase tracking-widest">Our Story Progress</span>
+<h1 class="font-display-lg text-display-lg text-primary mb-6 italic">Path to Forever</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
+            A high-fidelity journey through your legal and celebratory milestones. Every step curated to ensure your transition into married life is as serene as the ceremony itself.
+          </p>
+</div>
+<div class="w-1/3 min-h-[200px] flex items-center justify-center">
+<div class="relative">
+<!-- Decorative SVG Circles/Rings -->
+<svg class="journey-line-svg" fill="none" height="240" viewbox="0 0 240 240" width="240" xmlns="http://www.w3.org/2000/svg">
+<circle cx="90" cy="120" opacity="0.6" r="60" stroke="#ffddb4" stroke-dasharray="10 5" stroke-width="4"></circle>
+<circle cx="150" cy="120" opacity="0.3" r="70" stroke="#1a2238" stroke-width="4"></circle>
+<path d="M40 160C80 80 160 200 200 120" stroke="#77592f" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path>
+<path d="M20 180C100 20 140 220 220 60" stroke="#e8c08d" stroke-dasharray="8 4" stroke-width="2"></path>
+<circle class="node-pulse" cx="170" cy="80" fill="#77592f" r="10"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-5xl opacity-80" style="font-variation-settings: 'FILL' 0;">all_inclusive</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Abstract Background Texture -->
+<div class="absolute top-0 right-0 w-full h-full opacity-[0.03] pointer-events-none">
+<svg viewbox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
+<filter id="b">
+<feturbulence basefrequency=".65" numoctaves="3" stitchtiles="stitch" type="fractalNoise"></feturbulence>
+</filter>
+<rect filter="url(#b)" height="100%" width="100%"></rect>
+</svg>
+</div>
+</section>
+<!-- Interactive Journey Map -->
+<section class="mt-stack-lg relative py-20 px-8">
+<!-- Connecting Line Container -->
+<div class="absolute top-1/2 left-0 w-full h-1 -translate-y-1/2 px-20">
+<svg class="w-full h-16 -mt-8" fill="none" preserveaspectratio="none" viewbox="0 0 1000 100">
+<!-- Main Journey Path -->
+<path d="M0 50 Q 250 10, 500 50 T 1000 50" stroke="#e4e2dd" stroke-linecap="round" stroke-width="3"></path>
+<!-- Completed Progress -->
+<path class="drop-shadow-lg" d="M0 50 Q 250 10, 500 50" stroke="#77592f" stroke-linecap="round" stroke-width="4"></path>
+</svg>
+</div>
+<div class="flex justify-between items-start relative z-10 gap-8">
+<!-- Milestone Node 1: COMPLETED -->
+<div class="flex flex-col items-center group w-64 text-center">
+<div class="mb-10 relative">
+<div class="w-20 h-20 rounded-full bg-white border-4 border-secondary shadow-[0_0_20px_rgba(119,89,47,0.2)] flex items-center justify-center transition-transform group-hover:scale-110 duration-500">
+<span class="material-symbols-outlined text-secondary text-3xl">assignment_turned_in</span>
+</div>
+<div class="absolute -top-1 -right-1 w-8 h-8 bg-secondary rounded-full flex items-center justify-center text-white border-2 border-white">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</div>
+</div>
+<div class="space-y-2">
+<h3 class="font-headline-md text-headline-md text-primary">NOIM Lodged</h3>
+<span class="inline-block px-3 py-1 bg-secondary-container text-on-secondary-container text-[11px] font-label-caps uppercase rounded-full">Completed</span>
+<p class="text-sm text-on-surface-variant opacity-70 mt-2 font-body-md">Official notice of intended marriage has been filed successfully.</p>
+</div>
+</div>
+<!-- Milestone Node 2: COMPLETED -->
+<div class="flex flex-col items-center group w-64 text-center mt-12">
+<div class="mb-10 relative">
+<div class="w-20 h-20 rounded-full bg-white border-4 border-secondary shadow-[0_0_20px_rgba(119,89,47,0.2)] flex items-center justify-center transition-transform group-hover:scale-110 duration-500">
+<span class="material-symbols-outlined text-secondary text-3xl">favorite</span>
+</div>
+<div class="absolute -top-1 -right-1 w-8 h-8 bg-secondary rounded-full flex items-center justify-center text-white border-2 border-white">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</div>
+</div>
+<div class="space-y-2">
+<h3 class="font-headline-md text-headline-md text-primary">Marriage Completed</h3>
+<span class="inline-block px-3 py-1 bg-secondary-container text-on-secondary-container text-[11px] font-label-caps uppercase rounded-full">Completed</span>
+<p class="text-sm text-on-surface-variant opacity-70 mt-2 font-body-md">The ceremony was held and the registry has been updated.</p>
+</div>
+</div>
+<!-- Milestone Node 3: PENDING/ACTIVE -->
+<div class="flex flex-col items-center group w-64 text-center">
+<div class="mb-10 relative">
+<div class="w-24 h-24 rounded-full bg-secondary-fixed-dim/10 border-2 border-secondary border-dashed flex items-center justify-center transition-transform group-hover:scale-110 duration-500 relative">
+<!-- Rotating dashed ring for active state -->
+<div class="absolute inset-0 rounded-full border-2 border-secondary/30 border-dashed animate-[spin_10s_linear_infinite]"></div>
+<div class="w-20 h-20 rounded-full bg-white border-2 border-outline flex items-center justify-center shadow-md">
+<span class="material-symbols-outlined text-outline text-3xl">workspace_premium</span>
+</div>
+</div>
+</div>
+<div class="space-y-2">
+<h3 class="font-headline-md text-headline-md text-on-surface-variant">Certificate Received</h3>
+<span class="inline-block px-3 py-1 bg-surface-container-high text-outline text-[11px] font-label-caps uppercase rounded-full">Pending</span>
+<p class="text-sm text-on-surface-variant opacity-70 mt-2 font-body-md">Awaiting the digital and physical copies of the certificate.</p>
+</div>
+</div>
+<!-- Milestone Node 4: PENDING -->
+<div class="flex flex-col items-center group w-64 text-center mt-12">
+<div class="mb-10 relative">
+<div class="w-20 h-20 rounded-full bg-surface-container border-2 border-outline flex items-center justify-center transition-transform group-hover:scale-110 duration-500 opacity-60">
+<span class="material-symbols-outlined text-outline text-3xl">backup</span>
+</div>
+</div>
+<div class="space-y-2">
+<h3 class="font-headline-md text-headline-md text-outline opacity-70">485 App Submitted</h3>
+<span class="inline-block px-3 py-1 bg-surface-container-highest text-outline text-[11px] font-label-caps uppercase rounded-full">Locked</span>
+<p class="text-sm text-on-surface-variant opacity-70 mt-2 font-body-md">Final application following the certificate receipt.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Side Context / Call to Action -->
+<div class="mt-stack-lg grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="glass-card p-8 rounded-xl border border-secondary/10 shadow-sm col-span-2">
+<div class="flex items-start gap-6">
+<div class="w-16 h-16 rounded-full bg-secondary-fixed-dim/20 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary text-2xl">auto_awesome</span>
+</div>
+<div>
+<h4 class="font-headline-md text-headline-md text-primary mb-2">Concierge Advice</h4>
+<p class="text-on-surface-variant mb-6 font-body-md">"The Certificate Received stage typically takes 14 business days. We suggest ordering an express physical copy if you plan to travel within the month."</p>
+<button class="bg-primary text-on-primary px-8 py-3 rounded-full font-nav-link text-sm hover:bg-secondary transition-all active:scale-95 shadow-lg shadow-primary/20">
+              Schedule Consultation
+            </button>
+</div>
+</div>
+</div>
+<div class="bg-white p-8 rounded-xl border border-outline-variant/10 shadow-sm flex flex-col justify-between">
+<div>
+<span class="text-label-caps font-label-caps text-secondary uppercase tracking-widest block mb-4">Journey Stats</span>
+<div class="space-y-6">
+<div>
+<div class="flex justify-between text-xs mb-2">
+<span class="font-bold text-primary">Progress</span>
+<span class="text-secondary font-bold">50%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-1/2"></div>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">timer</span>
+<span class="text-sm font-body-md text-on-surface-variant">Estimated Completion: **June 12**</span>
+</div>
+</div>
+</div>
+<a class="text-secondary text-sm font-label-caps flex items-center gap-2 mt-4 hover:underline" href="#">
+          View Detailed Timeline <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+</main>
+<script>
+    // Subtle parallax effect on the background elements
+    document.addEventListener('mousemove', (e) => {
+      const x = (window.innerWidth - e.pageX * 2) / 100;
+      const y = (window.innerHeight - e.pageY * 2) / 100;
+      
+      const decorativeLine = document.querySelector('.journey-line-svg');
+      if (decorativeLine) {
+        decorativeLine.style.transform = `translateX(${x}px) translateY(${y}px)`;
+      }
+    });
+
+    // Dark mode toggle logic (for future expansion)
+    function toggleTheme() {
+      document.documentElement.classList.toggle('dark');
+    }
+  </script>
+</body></html>
